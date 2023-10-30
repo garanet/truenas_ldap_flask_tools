@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/settings.png') }}" alt="AD/SMB setup" style="width:40px;">{% block title %} System Configs {% endblock %}</h3>
+<br/>
+<div class="form-group was-validated container">
+<form method="post">
+<div class="table-responsive">    
+    <div class="alert alert-info">Make sure you are typing the right settings!</div>
+  <table id="iscsi_data" class="table table-striped">
+    <tbody class="tbody">
+    <tr class="active">
+    <td style="width: 30%;"><label for="truenas_url" class="form-label">TrueNAS Endpoint URL:</label></td>
+    <td><input required name="truenas_url" type="text" id="truenas_url" placeholder="https://truenas-url.com" class="form-control" value="{{ truenas_url }}"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="truenas_pool" class="form-label">TrueNAS POOL</label></td>
+    <td><input required name="truenas_pool" type="text" id="truenas_pool" placeholder="LABNASP01" class="form-control" value="{{ truenas_pool }}"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="ldap_url" class="form-label">AD/LDAP URL</label></td>
+    <td><input required name="ldap_url" type="text" id="ldap_url" placeholder="ad-url-domain.com" class="form-control" value="{{ ldap_url }}"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="ldap_u_cn" class="form-label">AD/LDAP USER CN</label></td>            
+    <td><input required name="ldap_u_cn" type="text" id="ldap_u_cn" placeholder="CN=USERS,DC=AD-URL,DC=COM" class="form-control" value="{{ ldap_u_cn }}"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="ldap_g_cn" class="form-label">AD/LDAP GROUP CN</label></td>            
+    <td><input required name="ldap_g_cn" type="text" id="ldap_g_cn" placeholder="CN=GROUP,DC=AD-URL,DC=COM" class="form-control" value="{{ ldap_g_cn }}"></td>
+    </tr>    
+    <tr class="active">
+    <td><label for="ldap_admin" class="form-label">AD user Administrator</label></td>            
+    <td><input required name="ldap_admin" type="text" id="ldap_admin" placeholder="administrator" class="form-control" value="{{ ldap_admin }}"></td>
+    </tr>   
+    <tr class="active">
+    <td><label for="ldap_pwd" class="form-label text-danger">AD Administrator Password</label></td>            
+    <td><input required name="ldap_pwd" type="password" id="ldap_pwd" placeholder="***************" class="form-control" value="{{ ldap_pwd }}"></td>
+    </tr>            
+    <tr class="active">
+    <td><label for="domain" class="form-label">AD/LDAP DOMAIN</label></td>            
+    <td><input required name="domain" type="text" id="domain" placeholder="ad-url-domain.com" class="form-control" value="{{ domain }}"></td>
+    </tr>
+    <tr class="active">
+        <td><label for="onepwd_url" class="form-label">1Password Endpoint URL</label></td>   
+        <td><input required name="onepwd_url" type="text" id="onepwd_url" placeholder="https://xxxxxx.1password.eu" class="form-control" value="{{ onepwd_url }}"></td>
+    </tr>
+    <tr class="active">
+        <td><label for="onepwd_vault" class="form-label">1Password Vault Name</label></td>   
+        <td><input required name="onepwd_vault" type="text" id="onepwd_vault" placeholder="Private" class="form-control" value="{{ onepwd_vault }}"></td>
+    </tr>    
+   <tr class="active">
+    <td><label for="truenas_token" class="form-label text-danger">TrueNAS TOKEN</label></td>   
+    <td><input required name="truenas_token" type="password" id="truenas_token" placeholder="Y-XXXXXXXXX-XXXXXXX-XXXXX-XX" class="form-control" value="{{ truenas_token }}"></td>
+   </tr>   
+   <tr class="active">
+    <td><label for="onepwd_token" class="form-label text-danger">1Password TOKEN</label></td>   
+    <td><input required name="onepwd_token" type="password" id="onepwd_token" placeholder="Y-XXXXXXXXX-XXXXXXX-XXXXX-XX" class="form-control" value="{{ onepwd_token }}"></td>
+   </tr>      
+   <tr class="active">    
+    <td><input required name="userkey" type="password" id="userkey" placeholder="" class="form-control" value="{{ userkey }}">
+        <div class="invalid-feedback">Password Key to Save</div></td>    
+    <td class="text-left"><button type="submit" onclick="loading();" class="btn btn-primary">Save</button></td>    
+   </tr>
+    </tbody>
+    </table>    
+    </div>    
+</form>
+</div>
+{% endblock %}

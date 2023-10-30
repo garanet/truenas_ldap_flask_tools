@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/ad.png') }}" alt="AD/SMB setup" style="width:40px;">{% block title %} Dataset for the User {% endblock %}</h3>
+<div class="form-group container was-validated">
+<form method="post">
+<div class="table-responsive">    
+  <table id="iscsi_data" class="table table-striped">
+    <tbody class="tbody">
+    <tr class="active">
+        <td><label for="quota_tmp" class="form-label">Specify a maximum allowed space for this dataset in GiB (0 = no quota)</label></td>   
+        <td><input required name="quota_tmp" type="number" min="0" id="quota_tmp" placeholder="1" class="form-control"></td>
+        <td class="text-left"><label for="quota_tmp" class="form-label font-weight-bold">GiB</label></td>
+        <td></td>
+    </tr>
+    <tr class="active">
+        <td><label for="refquota_tmp" class="form-label">Define a maximum size for both the dataset and any child datasets in GiB (0 = no quota)</label></td>   
+        <td><input required name="refquota_tmp" type="number" min="0" id="refquota_tmp" placeholder="0" value="0" class="form-control"></td>
+        <td class="text-left"><label for="quota_tmp" class="form-labw font-weight-bold">GiB</label></td>
+        <td></td>
+    </tr>    
+    <tr class="active">
+        <td><label for="recordsize" class="form-label">Matching the fixed size of data, as in a database, may result in better performance</label></td>   
+        <td><select class="form-control" name="recordsize" id="recordsize">             
+            <option class="list-group-item" value="128KiB">128KiB</option> 
+            <option class="list-group-item" value="512">512</option> 
+            <option class="list-group-item" value="512B">512B</option> 
+            <option class="list-group-item" value="1K">1K</option> 
+            <option class="list-group-item" value="2K">2K</option> 
+            <option class="list-group-item" value="4K">4K</option> 
+            <option class="list-group-item" value="8K">8K</option> 
+            <option class="list-group-item" value="16K">16K</option> 
+            <option class="list-group-item" value="32K">32K</option> 
+            <option class="list-group-item" value="64K">64K</option> 
+            <option class="list-group-item" value="128K">128K</option> 
+            <option class="list-group-item" value="256K">256K</option> 
+            <option class="list-group-item" value="512K">512K</option> 
+            <option class="list-group-item" value="1M">1M</option>             
+          </select>    
+        </td>
+        <td></td>
+        <td></td>
+    </tr>       
+    <tr class="active">        
+        <td><label for="encryption" class="form-label">Encrypt the Dataset</label></td>   
+        <td><select class="form-select list-group-item" name="encryption" id="encryption"> 
+            <option value="YES">YES</option> 
+            <option value="NO">NO</option>             
+        </select></p></td>
+        <td></td>
+        <td></td>
+        </tr>
+    <tr class="active">
+        <td><label for="hostsallow" class="form-label">Enter a list of allowed hostnames or IP addresses</label></td>           
+        <td id="item_hostsallow"></td>
+        <td><button id="add_hostsallow" type="button" class="btn btn-outline-success">+</button></td>
+        <td><button id="remove_hostsallow" type="button" class="btn btn-outline-danger">-</button></td>
+    </tr> 
+    <tr class="active">
+        <td><label for="hostsdeny" class="form-label">Enter a list of denied hostnames or IP addresses, separate entries</label></td>           
+        <td id="item_hostsdeny"></td>
+        <td><button id="add_hostsdeny" type="button" class="btn btn-outline-success">+</button></td>      
+        <td><button id="remove_hostsdeny" type="button" class="btn btn-outline-danger">-</button></td>        
+    </tr> 
+    </tbody>
+    </table>
+    <div class="progress">
+        <div class="progress-bar" style="width:60%"></div>
+    </div> <br/>
+        <button type="submit" onclick="loading();" class="btn btn-primary">Apply</button>
+    </div>    
+</form>
+</div>
+{% endblock %}

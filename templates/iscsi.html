@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/iscsi.png') }}" alt="iscsi setup" style="width:40px;"> {% block title %} iSCSI User and ZVOL {% endblock %}</h3>
+<div class="form-group container was-validated">
+<form method="post">
+<div class="table-responsive">    
+  <table id="iscsi_data" class="table table-striped">
+    <tbody class="tbody">
+    <tr class="active">
+    <td style="width: 30%;"><label for="username" class="form-label">Username</label></td>
+    <td><input required name="username" type="text" id="username" placeholder="U-XXXXXXX" class="form-control"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="firstname" class="form-label">Firstname</label></td>
+    <td><input required name="firstname" type="text" id="firstname" placeholder="Customer Firstname" class="form-control"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="lastname" class="form-label">Lastname</label></td>
+    <td><input required name="lastname" type="text" id="lastname" placeholder="Customer Lastname" class="form-control"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="email" class="form-label">Email</label></td>            
+    <td><input required name="email" type="email" id="email" placeholder="Customer Email" class="form-control"></td>
+    </tr>
+    <tr class="active">
+    <td><label for="iscsi_disc_meth" class="form-label">Auth Methods</label></td>         
+    <td class="form-group">    
+    <select class="form-control" name="iscsi_disc_meth" id="iscsi_disc_meth"> 
+        <option value="NONE">NONE</option> 
+        <option value="CHAP">CHAP</option> 
+        <option value="CHAP_MUTUAL">MUTUAL CHAP</option> 
+    </select></td>
+    </tr>
+    <tr class="active">
+        <td><label for="volsize_tmp" class="form-label">Max allowed space in GiB (1 = 1 GiB)</label></td>   
+        <td><input required name="volsize_tmp" type="number" min="1" id="volsize_tmp" placeholder="1" class="form-control"></td>
+    </tr>
+    <tr class="active">        
+        <td class="form-group"><label for="encryption" class="form-label">ZVOL Encryption</label></td>   
+        <td>
+        <select class="form-control" name="encryption" id="encryption"> 
+            <option value="YES">YES</option> 
+            <option value="NO">NO</option>             
+        </select></p></td>
+        </tr>
+    </tbody>
+    </table>
+    <div class="progress">
+        <div class="progress-bar" style="width:20%"></div>
+    </div> 
+    <br/>
+        <button type="submit" onclick="loading();" class="btn btn-primary">Next</button>
+    </div>    
+</form>
+</div>
+{% endblock %}

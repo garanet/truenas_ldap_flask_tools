@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wsctcustom.js') }}"></script>
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+  <body>  
+      <nav class="navbar navbar-inverse navbar-expand-sm bg-dark navbar-dark" data-spy="affix" data-offset-top="197"> 
+        <div class="container-fluid bg-dark text-white">
+          <div class="navbar-header">
+          <a class="navbar-brand" target="_blank" href="https://www.garanet.net">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Garanet.net" style="width:40px;">
+          </a>                     
+          <a class="navbar-brand">TrueNas AD/iSCSI Tool {{ config['VERSION'] }}</a> 
+          </div>       
+          
+          <div><label class="form-label text-primary">Working on: </label><a class="text-warning"> {{ config['ENVIRONMENT'] }}</a></div>
+          <ul class="nav navbar-nav nav-tabs navbar-right">
+              <li class="navbar-default"><a class="nav-link bg-dark"  href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="About" style="width:30px;"> About</a></li>
+              {% if not 'id' in session %}
+              <li class="navbar-default"><a class="nav-link bg-dark" href="{{url_for('login')}}"><img src="{{ url_for('static', filename='img/login.png') }}" alt="Login" style="width:30px;"> Login</a></li>
+              {% else %}   
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle bg-dark" data-toggle="dropdown" href="#"><img src="{{ url_for('static', filename='img/ad.png') }}" alt="AD/SMB setup" style="width:30px;"> AD/SMB</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{url_for('aduser_data')}}">New AD/SMB</a>
+                  <a class="dropdown-item" href="{{url_for('admodify_data')}}">Modify AD User</a>                  
+                </div>
+              </li>   
+              <li><a class="nav-link bg-dark" href="{{url_for('iscsi_data')}}"><img src="{{ url_for('static', filename='img/iscsi.png') }}" alt="iSCSI" style="width:30px;"> iSCSI</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle bg-dark" data-toggle="dropdown" href="#"><img src="{{ url_for('static', filename='img/settings.png') }}" alt="Settings" style="width:30px;"> Settings</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{url_for('settings')}}">Config</a>
+                  <a class="dropdown-item" href="{{url_for('user_profile')}}">Profile</a>                  
+                </div>
+              </li>                 
+              <li class="navbar-default"><a class="nav-link bg-dark" href="{{url_for('login')}}"><img src="{{ url_for('static', filename='img/logout.png') }}" alt="Logout" style="width:30px;"> Logout</a></li>
+              {% endif %}
+          </ul>
+        </div>
+      </nav>
+    <div class="container-xxl p-3 my-3 border text-center">
+        {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ message[0] }}">          
+            <button type="button" class="close" data-dismiss="alert"></button>
+            {{ message[1] }}
+        </div>
+        {% endfor %}         
+            
+        {% block content %} 
+        {% endblock %}
+
+        {% if not spinner %}
+          <div id="loading" class="spinner-border text-primary text-center" style="display: none;"></div>
+        {% endif %}        
+    </div>    
+    <!-- <div class="panel-footer">Powered by</div> -->
+  </body>
+</html>

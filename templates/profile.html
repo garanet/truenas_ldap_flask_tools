@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/profile.png') }}" alt="AD/SMB setup" style="width:40px;">{% block title %} User Profile {% endblock %}</h3>
+<br/>
+<div class="form-group container">
+<form method="post" class="form-group was-validated">
+<div class="table-responsive table-striped">    
+    <div class="alert alert-warning">Will generate a new Password Key, you can't recover after the encryption!</div>
+  <table id="iscsi_data" class="table">
+    <tbody class="tbody">
+   <tr class="active">
+    <td class="text-right"><label for="userkey" class="form-label font-weight-bold text-danger">Old Password Key</label></td>   
+    <td><input required name="userkey" type="password" id="userkey" placeholder="Y-XXXXXXXXX-XXXXXXX-XXXXX-XX" class="form-control" value="{{ truenas_token }}">
+      <div class="invalid-feedback">To generate a new Key, fill the old one</div></td>
+   </tr>      
+    </tbody>
+    </table>
+        <button type="submit" onclick="loading();" class="btn btn-primary">Generate</button>
+    </div>    
+</form>
+</div>
+{% endblock %}

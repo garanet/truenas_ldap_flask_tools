@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} Define the iSCSI Target{% endblock %}</h2>
+<div class="form-group was-validated">
+    <form method="post">
+        <div class="table-responsive">      
+    <table id="iscsi_data" class="table table-striped table-sm">
+        <tbody class="tbody">
+        <tr class="active">  
+            <td><label for="blockname" class="form-label">Name</label></td>
+            <td><input required name="blockname" type="text" id="blockname" placeholder="Target name" class="form-control">
+                <div class="invalid-feedback">Keep the target name short and simple</div></td>
+        </tr>
+        <tr class="active" class="form-group">  
+            <td><label for="extenttype" class="form-label">Extend Type</label></td>
+            <td>
+                <select class="form-control" name="extenttype" id="extenttype"> 
+                    <option value="d">Device</option> 
+                    <option value="f">File</option>                     
+                </select> 
+            </tr><div class="invalid-feedback">Device provides virtual storage access to zvols, zvol snapshots, or physical devices. File provides virtual storage access to a single file.</div>
+               </td>
+              
+        <tr class="active" class="form-group">  
+            <td><label for="target" class="form-label">Target</label></td>            
+            <td><select class="form-control" name="target" id="target"> 
+                {% for item in tn_list %}
+                <option value="{{ item.id }}">{{ item }}</option> 
+                {% endfor %} 
+            </select></td>
+            <div class="invalid-feedback">Create a new Target or choose an existing target for this share.</div></tr>            
+        </tbody>
+    </table>
+    <div class="progress">
+        <div class="progress-bar" style="width:40%"></div>
+    </div> <br/>
+    <button type="submit" onclick="loading();" class="btn btn-primary">Next</button>
+    </div>    
+    </form>
+</div>
+{% endblock %}

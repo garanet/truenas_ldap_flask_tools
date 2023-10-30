@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} TrueNas AD/iSCSI {{ config['VERSION'] }} {% endblock %}</h1>
+<div class="table-responsive panel panel-default">
+    Welcome
+</div>
+<a class="navbar-brand" target="_blank" href="https://www.garanet.net">
+    <img src="{{ url_for('static', filename='img/restapi.gif') }}" alt="TrueNas AD/iSCSI Welcome" >
+</a>      
+{% endblock %}

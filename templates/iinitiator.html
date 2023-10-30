@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} iSCSI Portal and Initiator{% endblock %}</h2>
+<div class="form-group was-validated">
+<form method="post">
+<div class="table-responsive">     
+  <table id="iscsi_data" class="table table-striped table-sm">
+    <tbody class="tbody">
+    <tr class="active form-group">        
+    <td><label for="iscsi_portal" class="text-right">Portal</label></td>
+    <td> </td>
+    <td> </td>
+    <td><select class="form-control" name="iscsi_portal" id="iscsi_portal"> 
+        {% for item in pn_list %}
+        <option class="list-group-item" value="{{ item }}">{{ item }}</option> 
+        {% endfor %} 
+    </select></td>  
+    </tr>
+    <tr class="active form-group" >
+        <td><label for="auth_networks" class="label right">IP-Filter</label></td>
+        <td><button class="btn btn-outline-success" id="add_auth_networks" type="button">+</button></td>
+        <td><button class="btn btn-outline-danger" id="rem_auth_networks" type="button">-</button></td>
+        <td id="item_auth_networks"> </td>               
+    </tr>     
+    <tr class="active form-group" >
+        <td><label for="iscsi_initiator" class="label">Initiator</label></td>
+        <td><button class="btn btn-outline-success" id="add_iqn_initiator" type="button">+</button></td>
+        <td><button class="btn btn-outline-danger" id="rem_iqn_initiator" type="button">-</button></td>
+        <td><select class="form-control" name="iscsi_initiator" id="iscsi_initiator"> 
+            {% for item in in_list %}
+               <option class="list-group-item" value="{{ item }}">{{ item }}</option> 
+            {% endfor %} 
+        </select></td></tr>        
+    <tr class="active">
+        <td id="add_liqn_initiator" style="display:none;">Type the new IQN</td>        
+        <td></td>
+        <td></td>
+        <td id="item_iqn_initiator"></td>
+    </tr>
+    <tr class="active">
+        <td id="add_cliqn_initiator" style="display:none;">Comments</td>   
+        <td></td>
+        <td></td>    
+        <td id="add_ciqn_initiator"  style="display:none;"><input type="text" placeholder="A comment for this Inititator" name="add_cliqn_initiator" class="form-control active" ></td> 
+    </tr>
+    </tbody>
+    </table>    
+    <div class="progress">
+        <div class="progress-bar" style="width:60%"></div>
+    </div> 
+    <br/>
+        <button type="submit" onclick="loading();" class="btn btn-primary">Next</button>
+</div>    
+</form>
+</div>
+{% endblock %}

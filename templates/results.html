@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% block title %} Results {% endblock %}</h2>  
+<div class="container table-responsive-sm container">
+    <table class="table table-striped table-info">
+        {% for key, value in results.items() %}    
+        <tr>
+          <td class="font-weight-bold text-right"><p>{{key}}</p></td>  
+          <td class="text-left"><p>{{value}}</p></td>   
+        </tr>      
+      {% endfor %}            
+    </table>
+    {% if results_i %}
+    <table class="table table-striped table-info">
+      {% for key, value in results_i.items() %}    
+      <tr>
+        <td class="font-weight-bold text-right"><p>{{key}}</p></td>  
+        <td class="text-left"><p>{{value}}</p></td>   
+      </tr>      
+    {% endfor %}            
+  </table>    
+  {% endif %}
+    <div class="progress">
+      <div class="progress-bar" style="width:100%"></div>
+  </div> 
+</div>
+{% endblock %}

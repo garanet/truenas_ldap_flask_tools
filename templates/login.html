@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<img src="{{ url_for('static', filename='img/homelogo.png') }}" alt="TrueNas AD/iSCSI" style="width:40%;">
+<h3 class="text-primary">{% block title %} TrueNas AD/iSCSI {{ config['VERSION'] }} {% endblock %}</h3>
+<br/>
+<div class="table-responsive panel panel-default container">
+    <table class="table table-striped">
+        <form method="post" class="was-validated"> 
+            <tr class="active">
+                <td><label for="userkey">Insert the Password Key</label></td>
+                <td><input required type="password" placeholder="x-xxxxx-xxxxxx-xxxxx-xxxxx-x" name="userkey" class="form-control active" value="{{ request.form.userkey }}"></td>
+                <td><input class="btn btn-primary text-align-left" type="submit" onclick="loading();" value="Login"></td>
+            </tr>     
+        </form>
+    </table>
+    <span class="help-block">Do you need <a target="_blank" href="https://www.garanet.net">Support?</a></span>
+{% endblock %}

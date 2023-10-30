@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/ad.png') }}" alt="AD/SMB setup" style="width:40px;">{% block title %} Add Active Directory User/SMB {% endblock %}</h3>
+<div class="form-group container was-validated">
+<form method="post">
+<div class="table-responsive">    
+  <table id="iscsi_data" class="table table-striped">    
+        <tr class="active">
+            <td><label for="username" class="form-label">Username</label></td>
+            <td><input name="username" required type="text" id="username" placeholder="U-XXXXXXX" class="form-control"></td>
+        </tr>
+        <tr class="active">
+           <td><label for="firstname" class="form-label">Firstname</label></td>
+           <td><input name="firstname" required type="text" id="firstname" placeholder="Customer Firstname" class="form-control"></td>
+        </tr>
+        <tr class="active">
+            <td><label for="lastname" class="form-label">Lastname</label></td>
+            <td><input name="lastname" required type="text" id="lastname" placeholder="Customer Lastname" class="form-control"></td>
+        </tr>
+        <tr class="active">
+            <td><label for="email" class="form-label">Email</label></td>            
+            <td><input name="email" required type="email" id="email" placeholder="Customer Email" class="form-control"></td>
+        </tr>
+    <tr class="active" class="form-group">        
+        <td><label for="cusergroup">Create Group</label></td>   
+        <td>
+        <select class="form-control" name="cusergroup" id="cusergroup"> 
+            <option value="YES">YES</option> 
+            <option value="NO">NO</option>             
+        </select></p></td>
+        </tr> 
+    </table>
+    <div class="progress">
+        <div class="progress-bar" style="width:40%"></div>
+    </div><br/>
+        <button type="submit" onclick="loading();" class="btn btn-primary">Next</button>
+    </div>    
+</form>
+</div>
+{% endblock %}

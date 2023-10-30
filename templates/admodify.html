@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3><img src="{{ url_for('static', filename='img/admod.png') }}" alt="AD/SMB setup" style="width:40px;">{% block title %} Modify Active Directory User/SMB {% endblock %}</h3>
+<div class="form-group container was-validated">
+<!-- Users form Frontend menu -->
+<div class="table-responsive">    
+    <table id="admodifyusers" class="table table-striped">   
+        <h6 class="text-left"> USERS </h6>
+    <tr class="active">
+      <form method="post">
+        <td><select class="form-control" name="adlistusers" id="adlistusers">             
+            {% if ad_users %}
+              {% for user in ad_users %}
+               <option class="list-group-item" value="{{ user }}">{{ user }}</option> 
+              {% endfor %} 
+            {% endif %} 
+        </select></td></form>
+    <td>
+        <button type="submit" onclick="loading_modifyaduser();" class="btn btn-secondary">Modify</button>
+        <button type="submit" onclick="getaduserslist();" data-toggle="modal" data-target="#adchangeuserpwd" class="btn btn-primary">Change Password</button>     
+        <button type="submit" onclick="getaduserslist();" data-toggle="modal" data-target="#adenableuser" class="btn btn-success">Enable</button>           
+        <button type="submit" onclick="getaduserslist();" data-toggle="modal" data-target="#addisableuser" class="btn btn-warning">Disable</button>
+        <button type="submit" onclick="getaduserslist();" data-toggle="modal" data-target="#addeleteuser" class="btn btn-danger">Delete</button>
+    </td>
+  </tr>
+    </table>
+</div>
+<!-- END Users form Frontend menu -->
+
+<!-- Groups form Frontend menu -->
+<div class="table-responsive">    
+  <table id="admodifygroups" class="table table-striped">   
+  <h6 class="text-left"> GROUPS </h6>
+  <tr class="active">        
+    <td><select class="form-control" name="adlistgroups" id="adlistgroups">             
+        {% for group in ad_groups %}
+            <option class="list-group-item" value="{{ group }}">{{ group }}</option> 
+        {% endfor %} 
+      </select>    
+    </td>
+    <td>                 
+        <button type="submit" onclick="adaddusergroupmodal();" class="btn btn-primary" data-toggle="modal" data-target="#adaddusergroup" >Add User to Group</button>
+        <button type="submit" onclick="loading_rmadusergroup();" class="btn btn-success">Remove User from Group</button>
+        <button type="submit" onclick="loading_modifyadgroup();" class="btn btn-warning">Rename Group</button>
+        <button type="submit" onclick="addeletegroupmodal();" data-toggle="modal" data-target="#addeletegroup" class="btn btn-danger">Delete Group</button>           
+    </td>
+  </tr>    
+    </table>
+</div>
+<!-- END Groups form Frontend menu -->
+
+<!-- Rename Group Name -->
+<table class="table table-striped" id="loading_modifyadgroup" style="display:none;">
+    <tr class="active">
+        <td><label for="adgroupname" class="form-label">Group Name</label></td>
+        <td><input name="adgroupname" required type="text" id="adgroupname" placeholder="usergroup" class="form-control"></td>
+        <td><button type="submit" onclick="renameadusergroupmodal();" data-toggle="modal" data-target="#adrenamegroup" class="btn btn-danger">Rename</button></td>   
+    </tr>
+</table>
+<!-- END Rename Group Name -->
+
+<!-- Remove User from Group -->
+<table class="table table-striped" id="loading_rmadusergroup" style="display:none;">
+  <tr class="active">
+    <tr class="active"> <td class="text-center bg-primary text-light">-</td>
+    <td class="text-center bg-primary text-light">-</td>
+    <td class="text-center bg-primary text-light">-</td> </tr>
+    <td><label for="ad_groups" class="form-label">Users in the Group</label></td>
+    <td><select class="form-select list-group-item" name="ad_usersgroup" id="ad_usersgroup"> 
+      {% if ad_usersgroup %}
+      {% for usersgroup in ad_usersgroup %}
+          <option class="list-group-user" value="{{ usersgroup }}">{{ usersgroup }}</option> 
+      {% endfor %}          
+      {% endif %}          
+      </select>
+    </td>
+    <td><button type="submit" onclick="rmadusergroup();" data-toggle="modal" data-target="#adrmusergroup" class="btn btn-danger">Remove from the Group</button></td>   
+</tr>
+</table>
+<!-- END Remove User from Group -->
+
+<!-- Modify User Informations -->
+<table class="table table-striped" id="loading_modifyaduser" style="display:none;">  
+  <form method="post">
+    <tr class="active"> <td class="text-center bg-primary text-light">RECORDS</td> <td class="text-center bg-primary text-light">INFORMATIONS</td> </tr>
+    <tr class="active">
+        <td><label for="username" class="form-label">Username</label></td>
+        <td><input name="username" required type="text" id="username" placeholder="U-XXXXXXX" class="form-control"></td>
+    </tr>
+    <tr class="active">
+        <td><label for="firstname" class="form-label">Firstname</label></td>
+        <td><input name="firstname" required type="text" id="firstname" placeholder="Customer Firstname" class="form-control" {% if firstname %} value="{{ firstname }}" {% endif %}>        
+        </td>
+    </tr>
+    <tr class="active">
+        <td><label for="lastname" class="form-label">Lastname</label></td>
+        <td><input name="lastname" required type="text" id="lastname" placeholder="Customer Lastname" class="form-control"></td>
+    </tr>
+    <tr class="active">
+        <td><label for="email" class="form-label">Email</label></td>            
+        <td><input name="email" required type="email" id="email" placeholder="Customer Email" class="form-control"></td>
+    </tr>
+    <tr class="active">
+      <td><label for="whenCreated" class="form-label">Created</label></td>                  
+      <td><input name="whenCreated" type="text" id="whenCreated" class="form-control" disabled></td>
+    </tr>
+    <tr class="active">
+      <td><label for="whenChanged" class="form-label">Changed</label></td>                  
+      <td><input name="whenChanged" type="text" id="whenChanged" class="form-control" disabled></td>
+    </tr> 
+    <tr class="active">
+      <td><label for="userAccountControl" class="form-label">Status</label></td>                  
+      <td><input name="userAccountControl" type="text" id="userAccountControl" class="form-control" disabled></td>
+    </tr>    
+    <tr class="active">
+    <td></td>
+    <td><button type="submit" class="btn btn-danger" name="admodifyuserbutton">MODIFY</button></td>
+    <input type="hidden" id="admodifyuser" name="admodifyuser">
+    </tr>
+  </form>      
+</table>
+<!-- END Modify Informations -->
+
+<!-- Modal Enable user -->
+<div id="adenableuser" class="modal fade" role="dialog">
+    <form method="post" onclick="aduserselected();">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Enable User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>          
+        </div>
+        <div class="modal-body">
+          <p class="text-center"><span class="text-danger">ATTENTION!</span> Enable the User <label class="text-danger"><span class="outputadenableuser"></span>?</label></p>                
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" name="adenableuserbutton">ENABLE</button>            
+            <button type="button" class="btn btn-success" data-dismiss="modal">CLOSE</button>            
+            <input type="hidden" name="outputadenableuser" id="outputadenableuser">
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+<!-- END Modal Enable user -->
+
+<!-- Modal Disable user -->
+<div id="addisableuser" class="modal fade" role="dialog">
+    <form method="post" onclick="aduserselected();">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Disable User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>          
+        </div>
+        <div class="modal-body">
+          <p class="text-center"><span class="text-danger">ATTENTION!</span> Disable the User <label class="text-danger"><span class="outputadedisableuser"></span>?</label></p>          
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" name="addisableuserbutton">DISABLE</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal">CLOSE</button>
+            <input type="hidden" name="outputadedisableuser" id="outputadedisableuser">
+        </div>
+      </div>
+    </div>
+  </form>    
+  </div>
+<!-- END Modal Disable user -->
+
+<!-- Modal Delete USER-->
+<div id="addeleteuser" class="modal fade" role="dialog">
+    <form method="post" onclick="aduserselected();">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Delete User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>          
+        </div>
+        <div class="modal-body">
+          <p class="text-center"><span class="text-danger">ATTENTION!</span> Delete permanently the User <label class="text-danger"><span class="outputadedeleteuser"></span>?</label></p>          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">DELETE</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">DISCARD</button>
+          <input type="hidden" name="outputadedeleteuser" id="outputadedeleteuser">
+        </div>
+      </div>
+    </div>
+  </form>
+  </div> 
+<!-- END Modal Delete USER-->
+
+<!-- Modal Delete GROUP-->
+<div id="addeletegroup" class="modal fade" role="dialog">  
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Delete Group</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>          
+        </div>
+        <div class="modal-body">
+          <p class="text-center"><span class="text-danger">ATTENTION!</span> Delete permanently the Group <label class="text-primary"><span class="outputaddeletegroup"></span> ?</label></p>          
+        </div>
+        <div class="modal-footer">
+        <form method="POST"><button type="submit" onclick="addeletegroup();" class="btn btn-danger">DELETE</button>
+          <input type="hidden" name="outputaddeletegroup" id="outputaddeletegroup"></form>
+          <button type="button" class="btn btn-success" data-dismiss="modal">DISCARD</button>
+        </div>
+      </div>
+    </div>  
+</div>  
+<!-- END Modal Delete GROUP-->
+
+<!-- Modal Change user password -->
+<div id="adchangeuserpwd" class="modal fade" role="dialog">
+    <form method="post" class="was-validated">
+    <div class="modal-dialog">  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Reset User Password</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>          
+        </div>
+        <div class="modal-body">
+          <span class="outputadedeleteuser"></span>
+          <p class="text-center"><span class="text-danger">ATTENTION!</span> Password Reset for <label class="text-danger"><span class="outputadchangeuserpwd"></span>!</label></p>
+          
+          <p class="text-center text-warning">Passwords must meet complexity requirements</p>
+          <td><input name="aduserpwd" required type="password" id="aduserpwd" placeholder="Complex Password" class="form-control"></td>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger">RESET</button>          
+          <button type="button" class="btn btn-success" data-dismiss="modal">DISCARD</button>
+          <input type="hidden" name="outputadchangeuserpwd" id="outputadchangeuserpwd">
+        </div>
+      </div>
+    </div>
+    </form>
+</div>     
+<!-- END Modal Change user password -->
+
+<!-- Modal Remove User from GROUP -->
+<div id="adrmusergroup" class="modal fade" role="dialog">
+  <!-- <form method="POST" onclick=""> -->
+  <div class="modal-dialog">  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Remove User from Groups</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>          
+      </div>
+      <div class="modal-body">
+        <p class="text-center"><span class="text-danger">ATTENTION!</span> Remove User <label class="text-primary"><span class="outputadermusergroup"></span></label> from Group <label class="text-danger"><span class="outputadermgroup"></span>?</label></p>                
+      </div>
+      <div class="modal-footer">
+        <form method="POST"> <button type="submit" onclick="rmadusergroupmodal();" class="btn btn-danger" name="adrmusergroupbutton">REMOVE</button>            
+          <input type="hidden" name="outputadermusergroup" id="outputadermusergroup">
+          <input type="hidden" name="outputadermgroup" id="outputadermgroup">
+        </form>
+          <button type="button" class="btn btn-success" data-dismiss="modal">CLOSE</button>            
+
+      </div>
+    </div>
+  </div>
+  <!-- </form> -->
+</div>
+<!-- END Modal Remove User from GROUP -->
+
+<!-- Modal Rename GROUP -->
+<div id="adrenamegroup" class="modal fade" role="dialog">  
+  <div class="modal-dialog">  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Rename the Group</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>          
+      </div>
+      <div class="modal-body">
+        <p class="text-center"><span class="text-danger">ATTENTION!</span> Rename Group <label class="text-primary"><span class="outputrenamegroupold"></span></label> to <label class="text-danger"><span class="outputrenamegroup"></span>?</label></p>                
+      </div>
+      <div class="modal-footer">
+        <form method="post" onclick=""><button type="submit" onclick="adaddusergroup();" class="btn btn-danger" name="adrmusergroupbutton">RENAME</button>
+          <input type="hidden" name="outputrenamegroup" id="outputrenamegroup">
+          <input type="hidden" name="outputrenamegroupold" id="outputrenamegroupold"></form>
+          <button type="button" class="btn btn-success" data-dismiss="modal">CLOSE</button>                     
+      </div>
+    </div>
+  </div>  
+</div>
+<!-- END Modal Rename GROUP -->
+
+
+<!-- Add user to a GROUP -->
+<div id="adaddusergroup" class="modal fade" role="dialog">  
+  <div class="modal-dialog">  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Add user to the Group</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>          
+      </div>
+      <div class="modal-body">
+        <p class="text-center"><span class="text-danger">ATTENTION!</span> Adding the user <label class="text-primary"><span class="outputadadduserg"></span></label> to the Group: <label class="text-danger"><span class="outputadaddusergroup"></span>?</label></p>                
+      </div>
+      <div class="modal-footer">
+        <form method="post" onclick=""><button type="submit" onclick="" class="btn btn-danger" name="adrmusergroupbutton">ADD</button>
+          <input type="hidden" name="outputadaddusergroup" id="outputadaddusergroup">
+          <input type="hidden" name="outputadadduserg" id="outputadadduserg"></form>
+          <button type="button" class="btn btn-success" data-dismiss="modal">CLOSE</button>                     
+      </div>
+    </div>
+  </div>  
+</div>
+<!-- END Add user to a GROUP -->
+{% endblock %}
