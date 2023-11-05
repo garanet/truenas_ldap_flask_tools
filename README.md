@@ -62,6 +62,6 @@ LDAP Users and Groups syntax:
 
 **LDAPv3 Docs:** <https://ldap3.readthedocs.io/en/latest/>
 
-**TrueNas Docs:** <https://labsan01.wscloud.lab/api/docs/> (for the LAB)
+**TrueNas Docs:** <https://www.truenas.com/docs/core/api/>
 
 **1Password Docs:** <https://developer.1password.com/docs/connect/connect-api-reference/>
