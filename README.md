@@ -1,7 +1,7 @@
 # truenas_ldap_flask_tools
 A webtool in Python Flask that creates a LDAP user and his TrueNAS shares pool in ISCSI or NFS.
 
-1. There is a sperimental part that store the above user info, directly to onepassword.
+1. There is an experimental part that store the above user info, directly to onepassword.
 2. The configuration file is encrypted with the master key.
 3. Is using the python LDAP3 libraries.
 4. Using the TrueNAS scale API.
